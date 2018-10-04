@@ -19,8 +19,12 @@
   user-select: none;
 }
 
-.board__cell--alive {
+.board__cell--unknown {
   background-color: rgba(0, 255, 0, .25);
+}
+
+.board__cell--miss {
+  background-color: rgba(255, 255, 0, .25);
 }
 
 .board__cell--dead {

@@ -1,6 +1,13 @@
 import React from 'react';
 import './Board.scss';
 
+const cellStates = {
+  alive: '+',
+  dead: 'x',
+  miss: '-',
+  unknown: '?',
+}
+
 class Board extends React.Component {
   initialState = {
     ships: [
@@ -63,7 +70,7 @@ class Board extends React.Component {
       const row = [];
 
       for (let j = 0; j < boardSize; j++) {
-        row.push('-');
+        row.push(cellStates.unknown);
       }
 
       board.push(row);
@@ -74,7 +81,7 @@ class Board extends React.Component {
         const rowIndex = position[1];
         const colIndex = position[0];
         const isPositionAlive = position[2] === 1;
-        board[rowIndex][colIndex] = isPositionAlive ? '+' : 'x';
+        board[rowIndex][colIndex] = isPositionAlive ? cellStates.alive : cellStates.dead;
       }
     }
 
@@ -87,8 +94,11 @@ class Board extends React.Component {
 
     for (let rowIndex = 0; rowIndex < computedBoard.length; rowIndex++) {
       const row = computedBoard[rowIndex];
-      const colsJsx = row.map((cellValue, colIndex) => {
-        const modifierClass = cellValue === 'x' ? 'board__cell--dead' : '';
+      const colsJsx = row.map((cellState, colIndex) => {
+        const modifierClass =
+          cellState === cellStates.miss ? 'board__cell--miss' :
+          cellState === cellStates.dead ? 'board__cell--dead' :
+          'board__cell--unknown';
 
         return (
           <div
@@ -96,7 +106,11 @@ class Board extends React.Component {
             key={colIndex}
             onClick={this.createCellClickHandler(rowIndex, colIndex)}
           >
-            {cellValue === 'x' ? 'x' : '?'}
+            {
+              cellState === cellStates.miss ? '-' :
+              cellState === cellStates.dead ? 'x' :
+              '?'
+            }
           </div>
         )
       });
