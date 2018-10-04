@@ -3,7 +3,7 @@ import './Board.scss';
 
 class Board extends React.Component {
   initialState = {
-    layout: [
+    ships: [
       { positions: [[2,9,1], [3,9,1], [4,9,1], [5,9,1], [6,9,1]] },
       { positions: [[5,2,1], [5,3,1], [5,4,1], [5,5,1]] },
       { positions: [[8,1,1], [8,2,1], [8,3,1]] },
@@ -19,8 +19,8 @@ class Board extends React.Component {
       const xPos = colIndex;
       const yPos = rowIndex;
 
-      const layoutCopy = JSON.parse(JSON.stringify(this.state.layout));
-      const newLayout = layoutCopy.map((ship) => {
+      const shipsCopy = JSON.parse(JSON.stringify(this.state.ships));
+      const newShips = shipsCopy.map((ship) => {
         return {
           ...ship,
           positions: ship.positions.map((pos) => {
@@ -30,20 +30,20 @@ class Board extends React.Component {
         };
       })
       
-      this.setState({ layout: newLayout }, () => {
+      this.setState({ ships: newShips }, () => {
         if (this.computeGameover()) {
           // fire callback in next tick to let React perform render
           setTimeout(() => {
             alert('Game is over. Let\'s start all over again!');
             this.setState({ ...this.initialState });
-          }, 0);
+          }, 10);
         }
       });
     };
   }
 
   computeGameover = () => {
-    for (let ship of this.state.layout) {
+    for (let ship of this.state.ships) {
       for (let position of ship.positions) {
         const isCellAlive = position[2] === 1;
         if (isCellAlive) {
@@ -69,7 +69,7 @@ class Board extends React.Component {
       board.push(row);
     }
 
-    for (let ship of this.state.layout) {
+    for (let ship of this.state.ships) {
       for (let position of ship.positions) {
         const rowIndex = position[1];
         const colIndex = position[0];
