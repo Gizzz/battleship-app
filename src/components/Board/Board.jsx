@@ -3,19 +3,12 @@ import './Board.scss';
 
 class Board extends React.Component {
   initialState = {
-    "shipTypes": {
-      "carrier": { "size": 5, "count": 1 },
-      "battleship": { "size": 4, "count": 1 },
-      "cruiser": { "size": 3, "count": 1 },
-      "submarine": { "size": 3, "count": 1 },
-      "destroyer": { "size": 2, "count": 1 },
-    },
-    "layout": [
-      { "shipType": "carrier", "positions": [[2,9,1], [3,9,1], [4,9,1], [5,9,1], [6,9,1]] },
-      { "shipType": "battleship", "positions": [[5,2,1], [5,3,1], [5,4,1], [5,5,1]] },
-      { "shipType": "cruiser", "positions": [[8,1,1], [8,2,1], [8,3,1]] },
-      { "shipType": "submarine", "positions": [[3,0,1], [3,1,1], [3,2,1]] },
-      { "shipType": "destroyer", "positions": [[0,0,1], [1,0,1]] },
+    layout: [
+      { positions: [[2,9,1], [3,9,1], [4,9,1], [5,9,1], [6,9,1]] },
+      { positions: [[5,2,1], [5,3,1], [5,4,1], [5,5,1]] },
+      { positions: [[8,1,1], [8,2,1], [8,3,1]] },
+      { positions: [[3,0,1], [3,1,1], [3,2,1]] },
+      { positions: [[0,0,1], [1,0,1]] },
     ],
   }
 
