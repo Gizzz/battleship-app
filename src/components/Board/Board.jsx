@@ -73,15 +73,22 @@ class Board extends React.Component {
 
     for (let rowIndex = 0; rowIndex < computedBoard.length; rowIndex++) {
       const row = computedBoard[rowIndex];
-      const colsJsx = row.map((cellValue, colIndex) => (
-        <div
-          className="board__cell"
-          key={colIndex}
-          onClick={this.createCellClickHandler(rowIndex, colIndex)}
-        >
-          {cellValue}
-        </div>
-      ));
+      const colsJsx = row.map((cellValue, colIndex) => {
+        const modifierClass = 
+          cellValue === '+' ? 'board__cell--alive' :
+          cellValue === 'x' ? 'board__cell--dead' :
+          '';
+
+        return (
+          <div
+            className={`board__cell ${modifierClass}`}
+            key={colIndex}
+            onClick={this.createCellClickHandler(rowIndex, colIndex)}
+          >
+            {cellValue}
+          </div>
+        )
+      });
 
       const rowJsx = (<div className="board__row" key={rowIndex}>{colsJsx}</div>);
       rowsJsx.push(rowJsx);
