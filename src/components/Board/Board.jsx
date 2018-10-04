@@ -16,7 +16,7 @@ class Board extends React.Component {
       { "shipType": "cruiser", "positions": [[8,1,1], [8,2,1], [8,3,1]] },
       { "shipType": "submarine", "positions": [[3,0,1], [3,1,1], [3,2,1]] },
       { "shipType": "destroyer", "positions": [[0,0,1], [1,0,1]] },
-    ]
+    ],
   }
 
   state = this.initialState
@@ -37,8 +37,29 @@ class Board extends React.Component {
         };
       })
       
-      this.setState({ layout: newLayout });
+      this.setState({ layout: newLayout }, () => {
+        if (this.computeGameover()) {
+          // fire callback in next tick to let React perform render
+          setTimeout(() => {
+            alert('Game is over. Let\'s start all over again!');
+            this.setState({ ...this.initialState });
+          }, 0);
+        }
+      });
     };
+  }
+
+  computeGameover = () => {
+    for (let ship of this.state.layout) {
+      for (let position of ship.positions) {
+        const isCellAlive = position[2] === 1;
+        if (isCellAlive) {
+          return false;
+        }
+      }
+    }
+
+    return true;
   }
 
   computeBoard = () => {
