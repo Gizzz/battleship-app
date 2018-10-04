@@ -6,7 +6,7 @@ const cellStates = {
   dead: 'x',
   miss: '-',
   unknown: '?',
-}
+};
 
 class Board extends React.Component {
   initialState = {
@@ -17,6 +17,7 @@ class Board extends React.Component {
       { positions: [[3,0,1], [3,1,1], [3,2,1]] },
       { positions: [[0,0,1], [1,0,1]] },
     ],
+    missedPositions: [],
   }
 
   state = this.initialState
@@ -26,27 +27,48 @@ class Board extends React.Component {
       const xPos = colIndex;
       const yPos = rowIndex;
 
+      let isUserMissed = true;
       const shipsCopy = JSON.parse(JSON.stringify(this.state.ships));
       const newShips = shipsCopy.map((ship) => {
         return {
           ...ship,
           positions: ship.positions.map((pos) => {
             const isPositionClicked = pos[0] === xPos && pos[1] === yPos;
+            if (isPositionClicked) {
+              isUserMissed = false;
+            }
+
             return isPositionClicked ? [pos[0], pos[1], 0] : pos;
           }),
         };
-      })
-      
-      this.setState({ ships: newShips }, () => {
+      });
+
+      const newMissedPositions = [...this.state.missedPositions];
+      const currentPosition = [colIndex, rowIndex];
+      if (isUserMissed && !this.isMissedPositionExists(currentPosition)) {
+        newMissedPositions.push([xPos, yPos]);
+      }
+
+      this.setState({ ships: newShips, missedPositions: newMissedPositions }, () => {
         if (this.computeGameover()) {
           // fire callback in next tick to let React perform render
           setTimeout(() => {
-            alert('Game is over. Let\'s start all over again!');
+            alert('Game is over. Let\'s start again!');
             this.setState({ ...this.initialState });
           }, 10);
         }
       });
     };
+  }
+
+  isMissedPositionExists = (positionParam) => {
+    for (let position of this.state.missedPositions) {
+      if (position[0] === positionParam[0] && position[1] === positionParam[1]) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   computeGameover = () => {
@@ -85,6 +107,12 @@ class Board extends React.Component {
       }
     }
 
+    for (let position of this.state.missedPositions) {
+      const rowIndex = position[1];
+      const colIndex = position[0];
+      board[rowIndex][colIndex] = cellStates.miss;
+    }
+
     return board;
   }
 
@@ -112,7 +140,7 @@ class Board extends React.Component {
               '?'
             }
           </div>
-        )
+        );
       });
 
       const rowJsx = (<div className="board__row" key={rowIndex}>{colsJsx}</div>);
