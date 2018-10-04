@@ -88,10 +88,7 @@ class Board extends React.Component {
     for (let rowIndex = 0; rowIndex < computedBoard.length; rowIndex++) {
       const row = computedBoard[rowIndex];
       const colsJsx = row.map((cellValue, colIndex) => {
-        const modifierClass = 
-          cellValue === '+' ? 'board__cell--alive' :
-          cellValue === 'x' ? 'board__cell--dead' :
-          '';
+        const modifierClass = cellValue === 'x' ? 'board__cell--dead' : '';
 
         return (
           <div
@@ -99,7 +96,7 @@ class Board extends React.Component {
             key={colIndex}
             onClick={this.createCellClickHandler(rowIndex, colIndex)}
           >
-            {cellValue}
+            {cellValue === 'x' ? 'x' : '?'}
           </div>
         )
       });
