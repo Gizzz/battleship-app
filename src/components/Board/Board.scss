@@ -24,6 +24,10 @@
 }
 
 .board__cell--miss {
+  background-color: rgba(0, 0, 0, .1);
+}
+
+.board__cell--damaged {
   background-color: rgba(255, 255, 0, .25);
 }
 

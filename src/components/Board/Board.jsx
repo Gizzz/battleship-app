@@ -3,6 +3,7 @@ import './Board.scss';
 
 const cellStates = {
   alive: '+',
+  damaged: '*',
   dead: 'x',
   miss: '-',
   unknown: '?',
@@ -99,11 +100,25 @@ class Board extends React.Component {
     }
 
     for (let ship of this.state.ships) {
+      const isShipAlive = ship.positions.reduce((acc, curr) => {
+        if (acc === true) {
+          return true;
+        }
+
+        const position = curr;
+        const isCellDead = position[2] === 0;
+
+        return isCellDead ? false : true;
+      }, false);
+
       for (let position of ship.positions) {
         const rowIndex = position[1];
         const colIndex = position[0];
-        const isPositionAlive = position[2] === 1;
-        board[rowIndex][colIndex] = isPositionAlive ? cellStates.alive : cellStates.dead;
+        const isCellAlive = position[2] === 1;
+        board[rowIndex][colIndex] =
+          isCellAlive ? cellStates.alive :
+          isShipAlive ? cellStates.damaged :
+          cellStates.dead;
       }
     }
 
@@ -125,6 +140,7 @@ class Board extends React.Component {
       const colsJsx = row.map((cellState, colIndex) => {
         const modifierClass =
           cellState === cellStates.miss ? 'board__cell--miss' :
+          cellState === cellStates.damaged ? 'board__cell--damaged' :
           cellState === cellStates.dead ? 'board__cell--dead' :
           'board__cell--unknown';
 
@@ -136,6 +152,7 @@ class Board extends React.Component {
           >
             {
               cellState === cellStates.miss ? '-' :
+              cellState === cellStates.damaged ? '*' :
               cellState === cellStates.dead ? 'x' :
               '?'
             }
