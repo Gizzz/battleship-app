@@ -1,5 +1,5 @@
 import React from 'react';
-import './Board.scss';
+import './Board.css';
 
 const cellStates = {
   alive: '+',
