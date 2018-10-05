@@ -1,3 +1,24 @@
 .app {
+  padding-bottom: 50px;
+}
+
+.app__title {
+  font-size: 24px;
   text-align: center;
+}
+
+.app__board {
+  margin: 0 auto;
+  width: 90%;
+}
+
+@media screen and (min-width: 550px) {
+  .app__title {
+    font-size: 30px;
+    text-align: center;
+  }
+
+  .app__board {
+    max-width: 500px;
+  }
 }
