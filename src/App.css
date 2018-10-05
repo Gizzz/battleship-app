@@ -7,6 +7,12 @@
   text-align: center;
 }
 
+.app__descr {
+  padding: 0 10%;
+  font-size: 16px;
+  text-align: center;
+}
+
 .app__board {
   margin: 0 auto;
   width: 90%;
@@ -15,7 +21,10 @@
 @media screen and (min-width: 550px) {
   .app__title {
     font-size: 30px;
-    text-align: center;
+  }
+
+  .app__descr {
+    font-size: 18px;
   }
 
   .app__board {
