@@ -40,6 +40,7 @@ class Board extends React.Component {
         {x: 1, y: 0, isAlive: true},
       ] },
     ],
+    // shape: missedPositions: [{ x: 0, y: 0 }, ...],
     missedPositions: [],
   }
 
@@ -69,7 +70,7 @@ class Board extends React.Component {
       const newMissedPositions = [...this.state.missedPositions];
       const currentPosition = [colIndex, rowIndex];
       if (isUserMissed && !this.isMissedPositionExists(currentPosition)) {
-        newMissedPositions.push([xPos, yPos]);
+        newMissedPositions.push({ x: xPos, y: yPos });
       }
 
       this.setState({ ships: newShips, missedPositions: newMissedPositions }, () => {
@@ -86,7 +87,7 @@ class Board extends React.Component {
 
   isMissedPositionExists = (positionParam) => {
     for (let position of this.state.missedPositions) {
-      if (position[0] === positionParam[0] && position[1] === positionParam[1]) {
+      if (position.x === positionParam[0] && position.y === positionParam[1]) {
         return true;
       }
     }
@@ -142,8 +143,8 @@ class Board extends React.Component {
     }
 
     for (let position of this.state.missedPositions) {
-      const rowIndex = position[1];
-      const colIndex = position[0];
+      const rowIndex = position.y;
+      const colIndex = position.x;
       board[rowIndex][colIndex] = cellStates.miss;
     }
 
