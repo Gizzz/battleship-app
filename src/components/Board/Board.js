@@ -12,11 +12,33 @@ const cellStates = {
 class Board extends React.Component {
   initialState = {
     ships: [
-      { positions: [[2,9,1], [3,9,1], [4,9,1], [5,9,1], [6,9,1]] },
-      { positions: [[5,2,1], [5,3,1], [5,4,1], [5,5,1]] },
-      { positions: [[8,1,1], [8,2,1], [8,3,1]] },
-      { positions: [[3,0,1], [3,1,1], [3,2,1]] },
-      { positions: [[0,0,1], [1,0,1]] },
+      { positions: [
+        {x: 2, y: 9, isAlive: true},
+        {x: 3, y: 9, isAlive: true},
+        {x: 4, y: 9, isAlive: true},
+        {x: 5, y: 9, isAlive: true},
+        {x: 6, y: 9, isAlive: true},
+      ] },
+      { positions: [
+        {x: 5, y: 2, isAlive: true},
+        {x: 5, y: 3, isAlive: true},
+        {x: 5, y: 4, isAlive: true},
+        {x: 5, y: 5, isAlive: true},
+      ] },
+      { positions: [
+        {x: 8, y: 1, isAlive: true},
+        {x: 8, y: 2, isAlive: true},
+        {x: 8, y: 3, isAlive: true},
+      ] },
+      { positions: [
+        {x: 3, y: 0, isAlive: true},
+        {x: 3, y: 1, isAlive: true},
+        {x: 3, y: 2, isAlive: true},
+      ] },
+      { positions: [
+        {x: 0, y: 0, isAlive: true},
+        {x: 1, y: 0, isAlive: true},
+      ] },
     ],
     missedPositions: [],
   }
@@ -33,13 +55,13 @@ class Board extends React.Component {
       const newShips = shipsCopy.map((ship) => {
         return {
           ...ship,
-          positions: ship.positions.map((pos) => {
-            const isPositionClicked = pos[0] === xPos && pos[1] === yPos;
+          positions: ship.positions.map((position) => {
+            const isPositionClicked = position.x === xPos && position.y === yPos;
             if (isPositionClicked) {
               isUserMissed = false;
             }
 
-            return isPositionClicked ? [pos[0], pos[1], 0] : pos;
+            return isPositionClicked ? { ...position, isAlive: false } : position;
           }),
         };
       });
@@ -75,8 +97,7 @@ class Board extends React.Component {
   computeGameover = () => {
     for (let ship of this.state.ships) {
       for (let position of ship.positions) {
-        const isCellAlive = position[2] === 1;
-        if (isCellAlive) {
+        if (position.isAlive) {
           return false;
         }
       }
@@ -106,15 +127,13 @@ class Board extends React.Component {
         }
 
         const position = curr;
-        const isCellDead = position[2] === 0;
-
-        return isCellDead ? false : true;
+        return position.isAlive;
       }, false);
 
       for (let position of ship.positions) {
-        const rowIndex = position[1];
-        const colIndex = position[0];
-        const isCellAlive = position[2] === 1;
+        const rowIndex = position.y;
+        const colIndex = position.x;
+        const isCellAlive = position.isAlive;
         board[rowIndex][colIndex] =
           isCellAlive ? cellStates.alive :
           isShipAlive ? cellStates.damaged :
