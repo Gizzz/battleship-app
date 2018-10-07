@@ -12,5 +12,5 @@ To start the app locally, install all dependencies (`npm i`) and start the app (
 The app is now available at localhost:3000.  
 
 **!BONUS:** Additional content available in `dev` branch. It shouldn't be taken into account while evaluating the original task, but maybe helps to follow the code logic. In `dev` branch the code is refactored bit: 
-- reshape the state of Board component for clarity
-- extract logic of Board to container component).
+- reshape state of Board component for clarity
+- extract logic of Board to container component
