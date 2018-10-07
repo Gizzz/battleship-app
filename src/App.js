@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
-import Board from './components/Board';
-
+import BoardContainer from './components/Board/BoardContainer';
 import './App.css';
 
 class App extends Component {
@@ -11,7 +10,7 @@ class App extends Component {
         <h1 className="app__title">Battleship App</h1>
         <p className="app__descr">Search and destroy all enemy ships by clicking on tiles of the board.</p>
         <div className="app__board">
-          <Board />
+          <BoardContainer />
         </div>
       </div>
     );
